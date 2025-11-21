@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'auth_app',
+    'rest_framework_simplejwt',  # Added for JWT support
 ]
 
 MIDDLEWARE = [
@@ -111,6 +112,15 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+# REST Framework Configuration with JWT Authentication
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 
 # Static files (CSS, JavaScript, Images)
