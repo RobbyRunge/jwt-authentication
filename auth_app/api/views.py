@@ -23,3 +23,14 @@ class RegistrationView(APIView):
             return Response(data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Test view to verify JWT authentication
+from rest_framework.permissions import IsAuthenticated
+
+
+class HelloWorldView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "Hello, World!"})
