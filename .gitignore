@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+*.db
+media/
+staticfiles/
+
+# VS Code
+.vscode/
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+
+# Migrations
+**/migrations/*
+!**/migrations/__init__.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test/coverage
+htmlcov/
+.coverage
+.tox/
+
+# Other
+*.env
+.env*
