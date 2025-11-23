@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -36,3 +37,29 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.set_password(pw)
         account.save()
         return account
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Custom serializer to authenticate users using email and password instead of username.
+    """
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    # Override the validate method to authenticate using email
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('Incorrect email or password.')
+
+        if not user.check_password(password):
+            raise serializers.ValidationError('Incorrect email or password.')
+
+        return super().validate(
+            {'username': user.username,
+             'password': password}
+        )
