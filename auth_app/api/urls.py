@@ -6,7 +6,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import RegistrationView, HelloWorldView, CookieTokenObtainPairView
+from .views import (
+    RegistrationView,
+    HelloWorldView,
+    CookieTokenObtainPairView,
+    CookieTokenRefreshView,
+)
 
 
 urlpatterns = [
@@ -14,7 +19,7 @@ urlpatterns = [
     # JWT token endpoints
     path('token/', CookieTokenObtainPairView.as_view(), name='token_obtain_pair'),
     # Endpoint to refresh JWT tokens
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
 
     # Test endpoint to verify JWT authentication
     path('hello/', HelloWorldView.as_view(), name='hello_world'),
