@@ -46,6 +46,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
+    # Override the __init__ method to remove the username field
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Remove the username field as we are using email for authentication
+        if 'username' in self.fields:
+            self.fields.pop('username')
+
     # Override the validate method to authenticate using email
     def validate(self, attrs):
         email = attrs.get('email')
@@ -59,7 +67,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not user.check_password(password):
             raise serializers.ValidationError('Incorrect email or password.')
 
-        return super().validate(
-            {'username': user.username,
-             'password': password}
-        )
+        attrs['username'] = user.username
+        data = super().validate(attrs)
+        return data
